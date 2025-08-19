@@ -1,6 +1,8 @@
 #+title: Neovim Config
 #+author: Roi DM
 
+[[URL_DESTINO][https://github.com/roidm/nvim-config/blob/main/pics/pic.png?raw=true]]
+
 * 🚀 Welcome
 Welcome to my Neovim configuration! This config is designed to be modular, fast, and efficient, using LazyVim for optimized plugin management.
 
