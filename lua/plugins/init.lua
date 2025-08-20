@@ -2,6 +2,7 @@
 
 return {
   { import = "plugins.dashboard"},
+  { import = "plugins.lualine" }, -- Esta es la línea que debes tener
   { import = "plugins.ui" },
   { import = "plugins.lsp" },
   { import = "plugins.completion" },

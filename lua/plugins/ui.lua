@@ -41,30 +41,17 @@ return {
     end,
   },
 
-  {
-    "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      require('lualine').setup({
-        options = {
-          icons_enabled = true,
-          theme = "catppuccin",
-          -- We use the thick section separators that give you the "filled" effect
-          section_separators = { left = '', right = '' },
-          -- And we use thinner component separators for the space between them
-          component_separators = { left = '', right = '' },
-        },
-        sections = {
-          lualine_a = {'mode'},
-          lualine_b = {'branch', 'diff', 'diagnostics'},
-          lualine_c = {'filename'},
-          lualine_x = {'filesize', 'filetype', 'location'},
-          lualine_y = {},
-          lualine_z = {'progress'},
-        },
-      })
-    end,
-  },
+--  {
+--    "nvim-lualine/lualine.nvim",
+--    dependencies = {
+--      "nvim-tree/nvim-web-devicons",
+--      "catppuccin/nvim",
+--    },
+--    config = function()
+--      local evil_lualine_theme = require("plugins.evil_lualine_config")
+--      require("lualine").setup(evil_lualine_theme)
+--    end,
+--  },
 
   {
     "norcalli/nvim-colorizer.lua",
