@@ -27,7 +27,6 @@ The configuration follows a modular structure to facilitate easy editing and plu
     ├── config/
     │   ├── keymaps.lua
     │   ├── lsp.lua
-    ├── core/
     │   ├── options.lua
     └── plugins/
         ├── completions.lua

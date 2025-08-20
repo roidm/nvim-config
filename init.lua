@@ -13,7 +13,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- carga las opciones de configuración
-require("core.options")
+require("config.options")
 
 -- carga todos los plugins
 require("lazy").setup("plugins")
