@@ -7,6 +7,41 @@ return {
     config = function()
       require("telescope").setup({
         defaults = {
+          file_ignore_patterns = {
+            '^node_modules/',
+            '^.git/',
+            '.vscode-oss/',
+            'vendor/',
+            'build/',
+            'work/',
+            '.local/share/flatpak/',
+            '.bun/',
+            '.atuin/',
+            '.cache/',
+            '.mozilla/',
+            '.var/',
+            '.ssh/',
+            'go/',
+            '.fzf',
+            '.npm/',
+            '.local/',
+            '.straight/',
+            '.cache/',
+            '.config/emacs/tree-sitter/',
+            '.ocat/',
+            '.zen/',
+          },
+          vimgrep_arguments = {
+            'rg',
+            '--color=never',
+            '--no-heading',
+            '--with-filename',
+            '--line-number',
+            '--column',
+            '--smart-case',
+            '--glob=!**/.vscode-oss/**',
+          },
+
           mappings = {
             i = {
               ["<C-t>"] = "select_tab",
@@ -53,6 +88,5 @@ return {
         },
       })
     end,
-  }
-
+  },
 }
