@@ -3,8 +3,7 @@ author: Roi DM
 title: Neovim Config
 ---
 
-[*<https://github.com/roidm/nvim-config/blob/main/pics/pic.png?raw=true>*]{.spurious-link
-target="URL_DESTINO"}
+[![Preview](https://github.com/roidm/nvim-config/blob/main/pics/pic.png?raw=true)](https://github.com/roidm/nvim-config)
 
 # 🚀 Welcome
 
