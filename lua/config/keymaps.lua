@@ -12,6 +12,52 @@ vim.keymap.set("v", "<leader>-", ":-:normal! I--<CR>", {
 	desc = "Add -- to selected lines",
 })
 
+function OpenCenteredInteractiveTerm()
+	-- Guarda el directorio de trabajo actual del archivo
+	local current_file_dir = vim.fn.expand("%:p:h")
+
+	-- Guarda el directorio de trabajo global actual
+	local global_work_dir = vim.fn.getcwd()
+
+	-- Cambia temporalmente el directorio de trabajo global al del archivo
+	vim.cmd("cd " .. current_file_dir)
+
+	-- Abre el terminal flotante
+	local buf = vim.api.nvim_create_buf(false, true)
+	local width = math.floor(vim.o.columns * 0.7)
+	local height = math.floor(vim.o.lines * 0.5)
+	local row = math.floor((vim.o.lines - height) / 2)
+	local col = math.floor((vim.o.columns - width) / 2)
+
+	local opts = {
+		style = "minimal",
+		relative = "editor",
+		width = width,
+		height = height,
+		row = row,
+		col = col,
+		border = "rounded",
+	}
+
+	---@diagnostic disable-next-line: unused-local
+	local winid = vim.api.nvim_open_win(buf, true, opts)
+
+	-- Configura la forma del cursor para el modo de inserción en la terminal
+	vim.cmd("setlocal cursorline")
+	vim.cmd("setlocal cul")
+	vim.cmd("setlocal cursorcolumn")
+	vim.cmd("setlocal cuc")
+
+	-- Inicia la terminal y entra en modo de inserción
+	vim.cmd("terminal")
+	vim.cmd("startinsert")
+
+	-- Restaura el directorio de trabajo global al valor original
+	vim.cmd("cd " .. global_work_dir)
+end
+
+vim.keymap.set("n", "<leader>T", OpenCenteredInteractiveTerm, { desc = "Floating Interactive Terminal" })
+
 vim.keymap.set("v", "<leader>;", ":'<,'>normal! I;; <CR>", {
 	noremap = true,
 	silent = true,
