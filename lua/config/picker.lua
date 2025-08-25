@@ -93,6 +93,12 @@ function M.media_picker()
 	M.create_picker({
 		dirs = { vim.fn.expand("~/Pictures"), vim.fn.expand("~/work/varios/cosas") },
 		filter = function(path)
+			local dirs_to_exclude = { "bigb", "tar", "pics", "mpv" }
+			for _, dir_name in ipairs(dirs_to_exclude) do
+				if path:match("work/varios/cosas/" .. dir_name .. "/") then
+					return false -- Retorna falso para excluir el archivo
+				end
+			end
 			return path:match("%.png$")
 				or path:match("%.jpg$")
 				or path:match("%.webp$")
@@ -105,5 +111,4 @@ function M.media_picker()
 		end,
 	})
 end
-
 return M

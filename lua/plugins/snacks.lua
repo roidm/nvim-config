@@ -3,10 +3,9 @@ return {
 		"folke/snacks.nvim",
 		priority = 1000,
 		lazy = false,
-		---@type snacks.Config
 		opts = {
 			bigfile = { enabled = true },
-			dashboard = { enabled = true },
+			dashboard = { enabled = false },
 			explorer = {
 				enabled = true,
 				show_hidden = true,
@@ -25,6 +24,11 @@ return {
 					items = { "main", "preview" },
 					sizes = { "40%", "60%" },
 				},
+				ivy = {
+					layout = "ivy",
+					items = { "main", "preview" },
+					sizes = { "60%", "40%" }, -- Puedes ajustar el tamaño si lo necesitas
+				},
 			},
 			indent = { enabled = false },
 			input = { enabled = true },
@@ -32,7 +36,7 @@ return {
 				enabled = true,
 				timeout = 3000,
 			},
-			picker = { enabled = true, default_layout = "vertical" },
+			picker = { enabled = true, default_layout = "ivy" },
 			quickfile = { enabled = true },
 			scope = { enabled = true },
 			scroll = { enabled = true },
@@ -45,14 +49,6 @@ return {
 			},
 		},
 		keys = {
-
-			{
-				"<leader><space>",
-				function()
-					Snacks.picker.smart()
-				end,
-				desc = "Smart Find Files",
-			},
 
 			{
 				"<leader><",
@@ -128,9 +124,9 @@ return {
 				desc = "Projects",
 			},
 			{
-				"<leader>fR",
+				"<leader>fr",
 				function()
-					Snacks.picker.recent()
+					Snacks.picker.recent({ layout = "ivy" })
 				end,
 				desc = "Recent",
 			},
@@ -420,20 +416,6 @@ return {
 					Snacks.zen()
 				end,
 				desc = "Toggle Zen Mode",
-			},
-			{
-				"<leader>.",
-				function()
-					Snacks.scratch()
-				end,
-				desc = "Toggle Scratch Buffer",
-			},
-			{
-				"<leader>S",
-				function()
-					Snacks.scratch.select()
-				end,
-				desc = "Select Scratch Buffer",
 			},
 			{
 				"<leader>n",

@@ -32,11 +32,11 @@ return {
 
 			-- Main buttons
 			dashboard.section.buttons.val = {
-				dashboard.button("f", "󰈞  Find file", "<cmd>lua Snacks.picker.files()<CR>"),
-				dashboard.button("r", "󰄉  Recent files", "<cmd>lua Snacks.picker.recent()<CR>"),
+				--dashboard.button("f", "󰈞  Find file", "<cmd>lua Snacks.picker.files()<CR>"),
+				--dashboard.button("r", "󰄉  Recent files", "<cmd>lua Snacks.picker.recent()<CR>"),
 				--dashboard.button("d", "󰕹  Snacks Dashboard", "<cmd>lua Snacks.dashboard.open()<CR>"),
-				--dashboard.button("f", "󰈞  Find file", ":Telescope find_files<CR>"),
-				--dashboard.button("r", "󰄉  Recent files", ":Telescope oldfiles<CR>"),
+				dashboard.button("f", "󰈞  Find file", ":Telescope find_files<CR>"),
+				dashboard.button("r", "󰄉  Recent files", ":Telescope oldfiles<CR>"),
 				dashboard.button("g", "󰈬  Live grep", ":Telescope live_grep<CR>"),
 				dashboard.button("c", "  Config", ":e $MYVIMRC<CR>"),
 				dashboard.button("l", "󰒲  Lazy", ":Lazy<CR>"),

@@ -1,5 +1,5 @@
+---@diagnostic disable: missing-fields
 return {
-
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
@@ -17,37 +17,29 @@ return {
 						base = "#11111b", -- Using crust as the main background color
 						mantle = "#181825", -- And mantle for secondary elements
 						crust = "#1e1e2e", -- And the old base for the "darker" (now lighter) elements
+						custom = "#4D678A",
 					},
 				},
 			})
-		end,
-	},
 
-	{
-		"folke/tokyonight.nvim",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			vim.g.tokyonight_style = "night"
-			vim.g.tokyonight_transparent = false
-			vim.g.tokyonight_italic_comments = true
-			vim.g.tokyonight_italic_keywords = true
+			-- custom highlights
+			local function set_custom_highlights()
+				local p = require("catppuccin.palettes").get_palette("mocha")
 
-			-- Sobrescribir colores mediante setup
-			require("tokyonight").setup({
-				style = "night",
-				transparent = false,
-				on_highlights = function(hl, c)
-					hl.Normal = { bg = "#11111b", fg = c.fg }
-					hl.NormalNC = { bg = "#11111b", fg = c.fg }
-					hl.VertSplit = { bg = "#11111b", fg = c.fg }
-					hl.StatusLine = { bg = "#11111b", fg = c.fg }
-					hl.StatusLineNC = { bg = "#11111b", fg = c.fg }
+				---@diagnostic disable-next-line: undefined-field
+				vim.api.nvim_set_hl(0, "FloatBorder", { fg = p.custom, bg = p.mantle })
+				vim.api.nvim_set_hl(0, "Float", { bg = p.crust })
+			end
+
+			vim.api.nvim_create_autocmd("ColorScheme", {
+				pattern = "catppuccin",
+				callback = function()
+					vim.schedule(set_custom_highlights)
 				end,
 			})
 
-			-- Cargar el colorscheme
-			vim.cmd([[colorscheme tokyonight]])
+			vim.cmd.colorscheme("catppuccin")
+			set_custom_highlights()
 		end,
 	},
 }

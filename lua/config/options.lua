@@ -48,6 +48,13 @@ o.shada = {
 	"f10", -- Recent files (10 elements)
 }
 
+o.guicursor = {
+	"n-v-c:block", -- normal/visual/command: block cursor
+	"i-ci-ve:ver25", -- insert modes: vertical bar
+	"r-cr:hor20", -- replace: horizontal bar
+	"o:hor50", -- operator-pending
+	"a:blinkon0", -- disable all cursor blinking
+}
 --o.shada:remove("'") -- quita la flag de búsqueda del shada
 o.undofile = true
 

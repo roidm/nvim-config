@@ -1,10 +1,13 @@
+---@diagnostic disable: unused-local
 return {
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope-file-browser.nvim",
+			"nvim-telescope/telescope-media-files.nvim",
 			"nvim-telescope/telescope-ui-select.nvim",
+			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		},
 
 		config = function()
@@ -13,7 +16,8 @@ return {
 			local builtin = require("telescope.builtin")
 			-- Carga la extensión de ui-select
 			telescope.load_extension("ui-select")
-
+			telescope.load_extension("fzf")
+			telescope.load_extension("media_files")
 			-- Configura Telescope para usar la extensión
 			telescope.setup({
 				defaults = {
@@ -31,7 +35,7 @@ return {
 						".var/",
 						".ssh/",
 						"go/",
-						".fzf",
+						".fzf/",
 						".npm/",
 						".local/",
 						".straight/",
@@ -39,6 +43,12 @@ return {
 						".config/emacs/tree-sitter/",
 						".ocat/",
 						".zen/",
+						"work/distro/",
+						"work/media/",
+						"work/varios/cosas/bigb/",
+						"work/varios/cosas/tar/",
+						"work/varios/cosas/pics/",
+						"work/varios/cosas/mpv/",
 					},
 					vimgrep_arguments = {
 						"rg",
@@ -72,7 +82,16 @@ return {
 						preview_width = 0.6,
 					},
 				},
+				pickers = {
+					find_files = {
+						theme = "ivy",
+					},
+					oldfiles = {
+						theme = "ivy",
+					},
+				},
 				extensions = {
+					fzf = {},
 					file_browser = {
 						hidden = { file_browser = true },
 						sorting_strategy = "ascending",
@@ -93,104 +112,6 @@ return {
 					},
 				},
 			})
-
-			-- Cargar extensiones
-			telescope.load_extension("file_browser")
-
-			-- 🔥 KEYMAPS PARA FILE BROWSER
-			local fb_actions = require("telescope").extensions.file_browser.actions
-
-			--vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find files" })
-			--vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live grep" })
-			--vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find buffers" })
-			--vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Help tags" })
-
-			-- 🔥 NUEVOS KEYMAPS: Búsqueda en ~/.config
-			vim.keymap.set("n", "<leader>fc", function()
-				builtin.find_files({
-					cwd = "~/.config/nvim",
-					prompt_title = "📁 CONFIG Files",
-					hidden = true,
-					file_ignore_patterns = {
-						"node_modules",
-						".git",
-						".cache",
-						".npm",
-						".yarn",
-						"vendor",
-					},
-				})
-			end, { desc = "Nvim directory" })
-
-			vim.keymap.set("n", "<leader>fn", function()
-				builtin.find_files({
-					cwd = "~/.config/nvim",
-					prompt_title = "⚡ NVIM Config",
-					file_ignore_patterns = {
-						"node_modules",
-						".git",
-						"lock.json",
-						".undo",
-					},
-				})
-			end, { desc = "Find nvim config files" })
-
-			-- File Browser específico
-			vim.keymap.set("n", "<leader>fe", function()
-				telescope.extensions.file_browser.file_browser({
-					path = "%:p:h",
-					grouped = true,
-					previewer = true,
-					initial_mode = "normal",
-					layout_config = {
-						width = 135,
-						height = 40,
-						preview_width = 0.6,
-					},
-					mappings = {
-						n = {
-							["h"] = fb_actions.goto_parent_dir,
-							["l"] = actions.select_default,
-							["-"] = fb_actions.goto_parent_dir,
-							["q"] = actions.close,
-						},
-					},
-				})
-			end, { desc = "File browser" })
-
-			-- File Browser desde directorio actual
-			vim.keymap.set("n", "<leader>fE", function()
-				telescope.extensions.file_browser.file_browser({
-					path = vim.fn.getcwd(),
-					grouped = true,
-					previewer = true,
-				})
-			end, { desc = "File browser (cwd)" })
-
-			-- 🔥 NUEVO KEYMAP: File Browser flotante con <leader>.
-			vim.keymap.set("n", "<leader>.", function()
-				telescope.extensions.file_browser.file_browser({
-					path = "%:p:h",
-					layout_config = {
-						anchor = "CENTER",
-						width = 135,
-						height = 40,
-						mirror = true,
-					},
-					previewer = true,
-					grouped = true,
-					initial_mode = "normal",
-					mappings = {
-						n = {
-							["h"] = fb_actions.goto_parent_dir,
-							["l"] = actions.select_default,
-							["-"] = fb_actions.goto_parent_dir,
-							["q"] = actions.close,
-							["<leader>."] = actions.close, -- Cerrar con el mismo keymap
-						},
-					},
-				})
-			end, { desc = "File browser (float)" })
 		end,
 	},
 }
