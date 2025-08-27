@@ -1,4 +1,3 @@
----@diagnostic disable: unused-local
 return {
 	{
 		"nvim-telescope/telescope.nvim",
@@ -14,42 +13,15 @@ return {
 			local telescope = require("telescope")
 			local actions = require("telescope.actions")
 			local builtin = require("telescope.builtin")
+
 			-- Carga la extensión de ui-select
 			telescope.load_extension("ui-select")
 			telescope.load_extension("fzf")
 			telescope.load_extension("media_files")
+
 			-- Configura Telescope para usar la extensión
 			telescope.setup({
 				defaults = {
-					file_ignore_patterns = {
-						"^node_modules/",
-						"^.git/",
-						".vscode-oss/",
-						"vendor/",
-						"build/",
-						".local/share/flatpak/",
-						".bun/",
-						".atuin/",
-						".cache/",
-						".mozilla/",
-						".var/",
-						".ssh/",
-						"go/",
-						".fzf/",
-						".npm/",
-						".local/",
-						".straight/",
-						".cache/",
-						".config/emacs/tree-sitter/",
-						".ocat/",
-						".zen/",
-						"work/distro/",
-						"work/media/",
-						"work/varios/cosas/bigb/",
-						"work/varios/cosas/tar/",
-						"work/varios/cosas/pics/",
-						"work/varios/cosas/mpv/",
-					},
 					vimgrep_arguments = {
 						"rg",
 						"--color=never",
@@ -59,6 +31,7 @@ return {
 						"--column",
 						"--smart-case",
 						"--glob=!**/.vscode-oss/**",
+						"--hidden", -- Asegúrate de que rg también ignore los archivos ocultos
 					},
 					mappings = {
 						i = {
@@ -85,6 +58,11 @@ return {
 				pickers = {
 					find_files = {
 						theme = "ivy",
+						find_command = {
+							"fd",
+							"--type=f",
+							"--hidden",
+						},
 					},
 					oldfiles = {
 						theme = "ivy",

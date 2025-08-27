@@ -1,32 +1,52 @@
 return {
   {
+    "stevearc/dressing.nvim",
+    lazy = true,
+    init = function()
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.ui.select = function(...)
+        require("lazy").load({ plugins = { "dressing.nvim" } })
+        return vim.ui.select(...)
+      end
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.ui.input = function(...)
+        require("lazy").load({ plugins = { "dressing.nvim" } })
+        return vim.ui.input(...)
+      end
+    end,
+  },
+
+  {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
-      presets = {
-        bottom_search = false,
-      },
-      messages = {
-        enabled = true,        -- enables the Noice messages UI
-        view = "mini",         -- default view for messages
-        view_error = "mini",   -- view for errors
-        view_warn = "mini",    -- view for warnings
-        view_history = "mini", -- view for :messages
-        view_search = "mini",  -- view for search count messages. Set to `false` to disable
-      },
-      notify = {
-        enabled = true,
-        view = "mini",
-      },
       lsp = {
-        message = {
-          -- Messages shown by lsp servers
-          enabled = true,
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+      },
+      routes = {
+        {
+          filter = {
+            event = "msg_show",
+            any = {
+              { find = "%d+L, %d+B" },
+              { find = "; after #%d+" },
+              { find = "; before #%d+" },
+            },
+          },
           view = "mini",
         },
       },
+      presets = {
+        bottom_search = false,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = true,
+      },
       views = {
-        -- This sets the position for the search mini that shows up with / or with :
         cmdline_mini = {
           position = {
             row = "40%",
@@ -34,21 +54,29 @@ return {
           },
         },
         mini = {
-          -- timeout = 5000, -- timeout in milliseconds
-          timeout = vim.g.neovim_mode == "skitty" and 2000 or 5000,
+          timeout = vim.g.neovim_mode == "skitty" and 1000 or 3000,
           align = "center",
           border = {
-            style = "rounded",
-            ---- hl_group = "FloatBorder",
+            style = "none",
           },
           position = {
-            -- Centers messages top to bottom
-            row = "3%",
-            -- Aligns messages to the far right
+            row = "95%",
             col = "100%",
           },
         },
       },
     },
+    -- stylua: ignore
+    keys = {
+      { "<S-Enter>",   function() require("noice").redirect(vim.fn.getcmdline()) end,                 mode = "c",                 desc = "Redirect Cmdline" },
+      { "<leader>snl", function() require("noice").cmd("last") end,                                   desc = "Noice Last Message" },
+      { "<leader>snh", function() require("noice").cmd("history") end,                                desc = "Noice History" },
+      { "<leader>sna", function() require("noice").cmd("all") end,                                    desc = "Noice All" },
+      { "<leader>snd", function() require("noice").cmd("dismiss") end,                                desc = "Dismiss All" },
+      { "<c-f>",       function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end,  silent = true,              expr = true,              desc = "Scroll forward",  mode = { "i", "n", "s" } },
+      { "<c-b>",       function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true,              expr = true,              desc = "Scroll backward", mode = { "i", "n", "s" } },
+    },
   },
+  -- ui components
+  { "MunifTanjim/nui.nvim", lazy = true },
 }

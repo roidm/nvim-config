@@ -3,8 +3,8 @@ local g = vim.g
 local fn = vim.fn
 
 -- Basic Neovim o.ons
-o.nu = true -- Número de línea normal
-o.relativenumber = false -- Número de línea relativo
+o.nu = true             -- Número de línea normal
+o.relativenumber = true -- Número de línea relativo
 
 o.showmode = false
 
@@ -14,7 +14,7 @@ o.shiftwidth = 2
 o.expandtab = true -- Usa espacios en lugar de tabulaciones
 --o.autoindent = true
 o.switchbuf = "newtab"
-o.showtabline = 1
+o.showtabline = 0
 
 -- Search
 o.incsearch = true
@@ -22,8 +22,8 @@ o.incsearch = true
 
 -- UI
 o.termguicolors = true -- Permite usar colores verdaderos
-o.cursorline = true -- Resalta la línea actual
-o.scrolloff = 8 -- Mantiene 8 líneas de contexto al desplazarse
+o.cursorline = true    -- Resalta la línea actual
+o.scrolloff = 8        -- Mantiene 8 líneas de contexto al desplazarse
 o.signcolumn = "yes"
 
 -- Configure how new splits should be opened
@@ -41,19 +41,19 @@ o.swapfile = false
 
 -- Shada history
 o.shada = {
-	"!", -- Saves the command history
-	"'100", -- Search history (100 elements)
-	"@100", -- Registers (100 elements)
-	"<50", -- Line history (50 elements)
-	"f10", -- Recent files (10 elements)
+  "!",    -- Saves the command history
+  "'100", -- Search history (100 elements)
+  "@100", -- Registers (100 elements)
+  "<50",  -- Line history (50 elements)
+  "f10",  -- Recent files (10 elements)
 }
 
 o.guicursor = {
-	"n-v-c:block", -- normal/visual/command: block cursor
-	"i-ci-ve:ver25", -- insert modes: vertical bar
-	"r-cr:hor20", -- replace: horizontal bar
-	"o:hor50", -- operator-pending
-	"a:blinkon0", -- disable all cursor blinking
+  "n-v-c:block",   -- normal/visual/command: block cursor
+  "i-ci-ve:ver25", -- insert modes: vertical bar
+  "r-cr:hor20",    -- replace: horizontal bar
+  "o:hor50",       -- operator-pending
+  "a:blinkon0",    -- disable all cursor blinking
 }
 --o.shada:remove("'") -- quita la flag de búsqueda del shada
 o.undofile = true
@@ -62,5 +62,21 @@ local undo_path = fn.stdpath("data") .. "/undo"
 o.undodir = undo_path
 
 if fn.isdirectory(undo_path) == 0 then
-	fn.mkdir(undo_path, "p")
+  fn.mkdir(undo_path, "p")
 end
+
+o.ignorecase = true -- Ignore case
+-- Deshabilitar netrw completamente
+g.loaded_netrw = 1
+g.loaded_netrwPlugin = 1
+
+g.snacks_image_cache_namemax = 50 -- Limitar a 50 caracteres
+
+o.fillchars = {
+  foldopen = "",
+  foldclose = "",
+  fold = " ",
+  foldsep = " ",
+  diff = "╱",
+  eob = " ",
+}

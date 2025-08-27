@@ -4,6 +4,37 @@ return {
 		priority = 1000,
 		lazy = false,
 		opts = {
+			dashboard = {
+				enabled = false,
+				preset = {
+					header = [[
+███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
+████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
+██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
+██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
+██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
+╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝
+          ]],
+				},
+			},
+			image = {
+				enabled = true,
+				cache_dir = "~/.cache/nvim/snacks_img", -- Directorio más corto
+				cache_namemax = 80, -- Limitar longitud máxima del nombre
+				max_width = 1920,
+				max_height = 1080,
+
+				-- Función personalizada para nombres más cortos (opcional)
+				cache_name = function(url)
+					-- Extraer solo el nombre del archivo o usar hash corto
+					local filename = string.match(url, "([^/]+)$") or ""
+					if filename == "" or #filename > 50 then
+						local hash = vim.fn.sha256(url)
+						return string.sub(hash, 1, 16) -- Hash de 16 caracteres
+					end
+					return string.sub(filename, 1, 50) -- Limitar a 50 caracteres
+				end,
+			},
 			bigfile = { enabled = true },
 			dashboard = { enabled = false },
 			explorer = {
@@ -48,7 +79,25 @@ return {
 				},
 			},
 		},
+		--config = function(_, opts)
+		--local snacks = require("snacks")
+		--snacks.setup(opts)
+		--
+		---- Abrir dashboard al iniciar Neovim si no se pasa archivo
+		--if vim.fn.argc() == 0 then
+		--vim.schedule(function()
+		--snacks.dashboard.open()
+		--end)
+		--end
+		--end,
 		keys = {
+			{
+				"<f5>",
+				function()
+					require("snacks").dashboard.open()
+				end,
+				desc = "Dashboard",
+			},
 
 			{
 				"<leader><",

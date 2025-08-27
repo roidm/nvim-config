@@ -1,5 +1,6 @@
 --Lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+---@diagnostic disable-next-line: undefined-field
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
@@ -13,6 +14,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("config.options")
+--require("config.autocmds")
 require("lazy").setup("plugins")
 
 vim.api.nvim_create_autocmd("BufWritePre", {

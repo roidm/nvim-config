@@ -39,10 +39,10 @@ wk.add({
 	-- Categorías de atajos
 	{ "<leader>c", group = "Code" },
 	{ "<leader>f", group = "Files" },
-	{ "<leader>q", group = "Quit" },
+	--	{ "<leader>q", group = "Quit" },
 	{ "<leader>w", group = "Windows" },
 	{ "<leader>b", group = "Buffers" },
-	{ "<leader>P", group = "Pickers" },
+	{ "<leader>p", group = "Pickers" },
 	{ "<leader>t", group = "Telescope" },
 	{ "<leader>s", group = "Snacks" },
 	{ "<leader>l", group = "LSP" },
@@ -82,6 +82,9 @@ wk.add({
 		"<leader>.",
 		function()
 			local opts = require("telescope.themes").get_ivy({
+				layout_config = {
+					height = 0.33, -- Altura de la ventana (33% de la pantalla)
+				},
 				path = "%:p:h",
 				grouped = true,
 				previewer = true,
@@ -103,6 +106,10 @@ wk.add({
 		"<leader>fe",
 		function()
 			local opts = require("telescope.themes").get_ivy({
+				layout_config = {
+					height = 0.33, -- Altura de la ventana (33% de la pantalla)
+				},
+				sorting_strategy = "ascending",
 				path = "%:p:h",
 				grouped = true,
 				previewer = true,
@@ -161,15 +168,20 @@ wk.add({
 	},
 
 	--Pickers
-	{ "<leader>P", group = "Pickers" },
+	{ "<leader>p", group = "Pickers" },
 	{ "<leader>d", picker.dotfiles_picker, desc = "Edit dotfiles" },
 	{ "<leader>M", picker.media_picker, desc = "Show Pictures" },
-	{ "<leader>Pd", picker.dotfiles_picker, desc = "Edit dotfiles" },
-	{ "<leader>Pm", picker.media_picker, desc = "Show Pictures" },
+	{ "<leader>pd", picker.dotfiles_picker, desc = "Edit dotfiles" },
+	{ "<leader>pm", picker.media_picker, desc = "Show Pictures" },
 
 	-- Otros atajos
 	{ "<leader>S", "<cmd>w<CR>", desc = "Save file" },
 	{ "<leader>r", "<cmd>lua Snacks.picker.recent()<CR>", desc = "Recent Files" },
+	{
+		"<leader>st",
+		"<cmd>lua require('snacks.terminal').open(nil, {win = {split = 'below'}})<CR>",
+		desc = "Snacks terminal below",
+	},
 	{ "<leader>fN", "<cmd>enew<CR>", desc = "Create new file" },
 
 	-- Búsqueda y reemplazo
@@ -229,11 +241,24 @@ wk.add({
 
 	-- Buffers
 	{ "<leader>bc", "<cmd>bdelete<CR>", desc = "Close buffer" },
-	{ "<leader>bl", "<cmd>Telescope buffers<CR>", desc = "List buffers" },
+	{
+		"<leader>,",
+		function()
+			require("telescope.builtin").buffers(require("telescope.themes").get_ivy({
+				layout_config = {
+					height = 0.33, -- Altura de la ventana (60% de la pantalla)
+				},
+				sorting_strategy = "ascending",
+				ignore_current_buffer = false,
+				previewer = true,
+			}))
+		end,
+		desc = "List buffers (Ivy)",
+	},
 	{ "<leader>bn", "<cmd>bnext<CR>", desc = "Next buffer" },
 	{ "<leader>bp", "<cmd>bprevious<CR>", desc = "Previous buffer" },
 
 	-- Salir
-	{ "<leader>qq", "<cmd>qa<CR>", desc = "Quit Neovim" },
-	{ "<leader>qw", "<cmd>wq<CR>", desc = "Save and Quit" },
+	--	{ "<leader>qq", "<cmd>qa<CR>", desc = "Quit Neovim" },
+	--	{ "<leader>qw", "<cmd>wq<CR>", desc = "Save and Quit" },
 })
