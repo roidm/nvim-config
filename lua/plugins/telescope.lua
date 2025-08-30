@@ -1,80 +1,59 @@
+-- lua/plugins/telescope.lua
 return {
   {
     "nvim-telescope/telescope.nvim",
-    event = "VeryLazy",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
-      "nvim-telescope/telescope-media-files.nvim",
-      "nvim-telescope/telescope-smart-history.nvim",
-      "nvim-telescope/telescope-ui-select.nvim",
-      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
+    keys = {
+      {
+        "<leader>.",
+        function()
+          local telescope = require("telescope")
+          local fb_actions = require("telescope._extensions.file_browser.actions")
+          local actions = require("telescope.actions")
 
-    config = function()
-      local telescope = require("telescope")
-      local actions = require("telescope.actions")
-
-      telescope.load_extension("ui-select")
-      telescope.load_extension("fzf")
-      telescope.load_extension("media_files")
-
-      telescope.setup({
-        defaults = {
-          vimgrep_arguments = {
-            "rg",
-            "--no-heading",
-            "--with-filename",
-            "--line-number",
-            "--column",
-            "--smart-case",
-            "--hidden",
-          },
-          mappings = {
-            i = {
-              ["<C-t>"] = actions.select_tab,
-              ["<C-x>"] = actions.select_vertical,
-              ["<C-v>"] = actions.select_horizontal,
-              ["<CR>"] = actions.select_default,
-              ["<C-q>"] = actions.close,
-            },
-            n = {
-              ["<C-t>"] = actions.select_tab,
-              ["<C-x>"] = actions.select_vertical,
-              ["<C-v>"] = actions.select_horizontal,
-              ["<CR>"] = actions.select_default,
-              ["q"] = actions.close,
-            },
-          },
-          sorting_strategy = "ascending", -- prompt arriba
-          layout_strategy = "horizontal", -- lista izquierda, preview derecha
-          layout_config = {
-            prompt_position = "top",
-            width = 0.8,
-            height = 0.8,
-            preview_width = 0.6,
-          },
-        },
-        pickers = {
-          find_files = {
-            find_command = { "fd", "--type=f", "--hidden" },
-          },
-          oldfiles = {},
-        },
-        extensions = {
-          fzf = {},
-          file_browser = {
-            hidden = { file_browser = true },
-            initial_mode = "normal",
-            grouped = true,
+          telescope.extensions.file_browser.file_browser({
+            path = "%:p:h",
+            grouped = true, -- carpetas primero
+            hidden = true,  -- mostrar ocultos
             previewer = true,
-            hijack_netrw = true,
+            initial_mode = "normal",
+            layout_strategy = "horizontal",
+            layout_config = {
+              prompt_position = "top",
+              width = 0.8,
+              height = 0.8,
+              preview_width = 0.55,
+            },
+            mappings = {
+              ["n"] = {
+                ["h"] = fb_actions.goto_parent_dir,
+                ["l"] = actions.select_default,
+                ["-"] = fb_actions.goto_parent_dir,
+                ["q"] = actions.close,
+              },
+            },
+          })
+        end,
+        desc = "Browse Files",
+      },
+    },
+    config = function(_, opts)
+      local telescope = require("telescope")
+      telescope.setup(vim.tbl_deep_extend("force", {
+        defaults = {
+          layout_strategy = "horizontal",
+          layout_config = {
+            width = 0.5,         -- 50% global
+            prompt_position = "top",
+            preview_width = 0.5, -- mitad para preview, mitad para results
           },
-          ["ui-select"] = {
-            require("telescope.themes").get_dropdown({}),
-          },
+          sorting_strategy = "ascending",
         },
-      })
+      }, opts or {}))
+      telescope.load_extension("file_browser")
     end,
   },
 }

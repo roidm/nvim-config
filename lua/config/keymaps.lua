@@ -7,7 +7,6 @@ vim.keymap.set("n", "<S-Up>", "<C-w>k", { noremap = true, silent = true })
 vim.keymap.set("n", "<S-Right>", "<C-w>l", { noremap = true, silent = true })
 vim.keymap.set("n", "<Esc>", ":nohlsearch<CR>", { silent = true })
 
-
 local wk = require("which-key")
 local picker = require("config.picker")
 
@@ -15,115 +14,19 @@ local picker = require("config.picker")
 wk.add({
 
   -- Groups
-  { "<leader>c",   group = "Code" },
-  { "<leader>f",   group = "Files" },
-  { "<leader>q",   group = "Quit" },
-  { "<leader>w",   group = "Windows" },
-  { "<leader>b",   group = "Buffers" },
-  { "<leader>t",   group = "Telescope" },
-  { "<leader>s",   group = "Snacks" },
-  { "<leader>p",   group = "Snacks Files" },
-  { "<leader>l",   group = "LSP" },
-  { "<leader>g",   group = "Git" },
-  { "<leader>u",   group = "Toggles" },
+  { "<leader>c",  group = "Code" },
+  { "<leader>f",  group = "Files" },
+  { "<leader>q",  group = "Quit" },
+  { "<leader>w",  group = "Windows" },
+  { "<leader>b",  group = "Buffers" },
+  { "<leader>s",  group = "Snacks" },
+  { "<leader>p",  group = "Snacks Files" },
+  { "<leader>l",  group = "LSP" },
+  { "<leader>g",  group = "Git" },
+  { "<leader>u",  group = "Toggles" },
 
-  -- Telescope shortcuts
-  { "<leader>tf",  "<cmd>Telescope find_files<CR>",                    desc = "Find Files" },
-  { "<leader>tg",  "<cmd>Telescope live_grep<CR>",                     desc = "Live Grep" },
-  { "<leader>tr",  "<cmd>Telescope oldfiles<CR>",                      desc = "Recent Files" },
-  { "<leader>tb",  "<cmd>Telescope buffers<CR>",                       desc = "List Buffers" },
-  { "<leader>tl",  "<cmd>Telescope lsp_document_symbols<CR>",          desc = "Document Symbols" },
-  { "<leader>tL",  "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>", desc = "Workspace Symbols" },
-  { "<leader>tgs", "<cmd>Telescope git_status<CR>",                    desc = "Git Status" },
-  { "<leader>tgc", "<cmd>Telescope git_commits<CR>",                   desc = "Git Commits" },
-  { "<leader>tgb", "<cmd>Telescope git_branches<CR>",                  desc = "Git Branches" },
-  { "<leader>td",  "<cmd>Telescope diagnostics<CR>",                   desc = "Diagnostics" },
-  { "<leader>tm",  "<cmd>Telescope marks<CR>",                         desc = "Marks" },
-  { "<leader>th",  "<cmd>Telescope help_tags<CR>",                     desc = "Help Tags" },
-  { "<leader>tc",  "<cmd>Telescope commands<CR>",                      desc = "Commands" },
-  { "<leader>tk",  "<cmd>Telescope keymaps<CR>",                       desc = "Keymaps" },
-  { "<leader>tt",  "<cmd>Telescope treesitter<CR>",                    desc = "Treesitter Symbols" },
-  { "<leader>tC",  "<cmd>Telescope colorscheme<CR>",                   desc = "Colorscheme" },
-  { "<leader>r",   "<cmd>Telescope oldfiles<CR>",                      desc = "Recent Files" },
-
-  -- Edit Neovim config
-  {
-    "<leader>te",
-    function()
-      require("telescope.builtin").find_files({
-        cwd = vim.fn.stdpath("config"),
-        prompt_title = "⚡ Edit Nvim Config",
-        hidden = true,
-      })
-    end,
-    desc = "Edit Nvim config",
-  },
-
-  -- Navegar archivos (file_browser)
-  {
-    "<leader>.",
-    function()
-      require("telescope").extensions.file_browser.file_browser({
-        path = "%:p:h",
-        grouped = true,
-        previewer = true,
-        initial_mode = "normal",
-        mappings = {
-          n = {
-            ["h"] = require("telescope._extensions.file_browser.actions").goto_parent_dir,
-            ["l"] = require("telescope.actions").select_default,
-            ["-"] = require("telescope._extensions.file_browser.actions").goto_parent_dir,
-            ["q"] = require("telescope.actions").close,
-          },
-        },
-      })
-    end,
-    desc = "Browse Files",
-  },
-  {
-    "<leader>fe",
-    function()
-      local fb_actions = require("telescope._extensions.file_browser.actions")
-      local actions = require("telescope.actions")
-      require("telescope").extensions.file_browser.file_browser({
-        path = "%:p:h",
-        grouped = true,
-        previewer = true,
-        initial_mode = "normal",
-        mappings = {
-          n = {
-            ["h"] = fb_actions.goto_parent_dir,
-            ["l"] = actions.select_default,
-            ["-"] = fb_actions.goto_parent_dir,
-            ["q"] = actions.close,
-          },
-        },
-      })
-    end,
-    desc = "File browser",
-  },
-  {
-    "<leader>fc",
-    function()
-      require("telescope.builtin").find_files({
-        cwd = "~/.config/nvim",
-        prompt_title = "📁 CONFIG Files",
-        hidden = true,
-        file_ignore_patterns = {
-          "node_modules",
-          ".git",
-          ".cache",
-          ".npm",
-          ".yarn",
-          "vendor",
-        },
-      })
-    end,
-    desc = "Nvim directory",
-  },
   { "<leader>fn", "<cmd>enew<CR>",        { desc = "New File" } },
   { "<leader>fs", "<cmd>w<CR>",           desc = "Save file" },
-
   --Pickers
   { "<leader>d",  picker.dotfiles_picker, desc = "Edit dotfiles" },
   { "<leader>m",  picker.media_picker,    desc = "Show Pictures" },
@@ -163,6 +66,7 @@ wk.add({
     desc = "Search & Replace",
   },
 
+  { "<leader>r",  function() Snacks.picker.recent() end,    desc = "Recent Files" },
   -- LSP shortcuts
   { "gD",         "<cmd>lua vim.lsp.buf.declaration()<CR>", desc = "Go to Declaration" },
   { "gd",         "<cmd>lua vim.lsp.buf.definition()<CR>",  desc = "Go to Definition" },
@@ -191,22 +95,10 @@ wk.add({
 
   -- Buffers
   { "<leader>bc", "<cmd>bdelete<CR>",                       desc = "Close buffer" },
-  {
-    "<leader>,",
-    function()
-      require("telescope.builtin").buffers({
-        sorting_strategy = "ascending", -- prompt arriba y lista ordenada
-        ignore_current_buffer = false,
-        previewer = true,
-      })
-    end,
-    desc = "List buffers",
-  },
-  { "<leader>bl", "<cmd>Telescope buffers<CR>", desc = "List Buffers" },
-  { "<leader>bn", "<cmd>bnext<CR>",             desc = "Next buffer" },
-  { "<leader>bp", "<cmd>bprevious<CR>",         desc = "Previous buffer" },
+  { "<leader>bn", "<cmd>bnext<CR>",                         desc = "Next buffer" },
+  { "<leader>bp", "<cmd>bprevious<CR>",                     desc = "Previous buffer" },
 
   -- Quit Neovim
-  { "<leader>qq", "<cmd>qa<CR>",                desc = "Quit Neovim" },
-  { "<leader>qw", "<cmd>wq<CR>",                desc = "Save and Quit" },
+  { "<leader>qq", "<cmd>qa<CR>",                            desc = "Quit Neovim" },
+  { "<leader>qw", "<cmd>wq<CR>",                            desc = "Save and Quit" },
 })

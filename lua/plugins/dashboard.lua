@@ -34,14 +34,11 @@ return {
       -- Main buttons
       dashboard.section.buttons.val = {
         dashboard.button("e", "  New File", "<cmd>ene<CR>"),
-        dashboard.button("f", "󰈞  Find file", ":Telescope find_files<CR>"),
-        dashboard.button("r", "󰄉  Recent files", ":Telescope oldfiles<CR>"),
-        dashboard.button("g", "󰈬  Live grep", ":Telescope live_grep<CR>"),
-        dashboard.button(
-          "c",
-          "  Config",
-          ":lua require('telescope.builtin').find_files({ cwd = vim.fn.stdpath('config'), prompt_title = '⚡ NVIM Config', hidden = true })<CR>"
-        ),
+        dashboard.button("f", "󰈞  Find file", ":lua Snacks.picker.smart()<CR>"),
+        dashboard.button("r", "󰄉  Recent files", ":lua Snacks.picker.recent()<CR>"),
+        dashboard.button("g", "󰈬  Live grep", ":lua Snacks.picker.grep()<CR>"),
+        dashboard.button("c", "  Config",
+          ":lua Snacks.picker.files({ cwd = vim.fn.stdpath('config'), prompt_title = '⚡ NVIM Config', hidden = true })<CR>"),
         dashboard.button("l", "󰒲  Lazy", ":Lazy<CR>"),
         dashboard.button("q", "󰅚  Quit", ":qa<CR>"),
       }
