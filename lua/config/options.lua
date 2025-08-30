@@ -15,7 +15,7 @@ o.expandtab = true -- Usa espacios en lugar de tabulaciones
 --o.autoindent = true
 o.switchbuf = "newtab"
 o.showtabline = 0
-
+g.trouble_lualine = true
 -- Search
 o.incsearch = true
 --o.hlsearch = false
@@ -67,16 +67,25 @@ end
 
 o.ignorecase = true -- Ignore case
 -- Deshabilitar netrw completamente
-g.loaded_netrw = 1
-g.loaded_netrwPlugin = 1
+--g.loaded_netrw = 1
+--g.loaded_netrwPlugin = 1
+g.netrw_banner = 0
 
 g.snacks_image_cache_namemax = 50 -- Limitar a 50 caracteres
 
+
+o.list = true
+o.listchars = {
+  trail = "·",
+  tab = "> ",
+  nbsp = "+",
+}
+
 o.fillchars = {
-  foldopen = "",
-  foldclose = "",
-  fold = " ",
-  foldsep = " ",
-  diff = "╱",
-  eob = " ",
+  eob = " ", -- borra los ~ al final del buffer
+  foldopen = "", -- icono fold abierto
+  foldclose = "", -- icono fold cerrado
+  fold = " ", -- relleno de pliegue
+  foldsep = " ", -- separador de pliegues
+  diff = "╱", -- en modo diff
 }
