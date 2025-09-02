@@ -1,7 +1,7 @@
 -- lua/config/icons.lua
 local M = {}
 
-local mi = require("mini.icons")
+local mi = require("nvim-web-devicons")
 
 -- Diagnostic & Git icons (Nerd Fonts)
 M.diagnostics = {
@@ -101,10 +101,8 @@ kind_filter = {
   },
 }
 
--- Exponer también mini.icons para filetypes, LSP kinds, etc.
 M.kinds = setmetatable({}, {
   __index = function(_, key)
-    -- Ejemplo: M.kinds.Function => mini.icons.get("lsp", "Function")
     return mi.get("lsp", key)
   end,
 })

@@ -1,70 +1,103 @@
 return {
-
-  {
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPre", "BufNewFile" },
+    version = false,
     build = ":TSUpdate",
-    -- Add the rainbow-delimiters plugin dependency here
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = {
-      "HiPhish/rainbow-delimiters.nvim",
-      "OXY2DEV/markview.nvim",
+        "nvim-treesitter/nvim-treesitter-textobjects",
     },
     config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = {
-          "json",
-          "javascript",
-          "typescript",
-          "tsx",
-          "go",
-          "yaml",
-          "html",
-          "css",
-          "python",
-          "http",
-          "markdown",
-          "markdown_inline",
-          "bash",
-          "lua",
-          "vim",
-          "gitignore",
-          "query",
-          "rust",
-          "ron",
-        },
-        highlight = {
-          enable = true,
-        },
-        -- Activate the rainbow-delimiters plugin here
-        rainbow_delimiters = {
-          enable = true,
-          -- Additional options, if needed
-        },
-      })
+        require("nvim-treesitter.configs").setup({
+            sync_install = false,
+            ignore_install = { "javascript" },
+            modules = {},
+            highlight = {
+                enable = true,
+                additional_vim_regex_highlighting = false,
+            },
+            indent = { enable = true },
+            auto_install = true,
+            ensure_installed = {
+                "bash",
+                "c",
+                "html",
+                "javascript",
+                "json",
+                "lua",
+                "luadoc",
+                "luap",
+                "query",
+                "regex",
+                "vim",
+                "vimdoc",
+                "yaml",
+                "rust",
+                "go",
+                "gomod",
+                "gowork",
+                "gosum",
+            },
+            incremental_selection = {
+                enable = true,
+                keymaps = {
+                    init_selection = "<leader>vv",
+                    node_incremental = "+",
+                    scope_incremental = false,
+                    node_decremental = "_",
+                },
+            },
+            textobjects = {
+                select = {
+                    enable = true,
+                    lookahead = true,
+
+                    keymaps = {
+                        -- You can use the capture groups defined in textobjects.scm
+                        ["af"] = { query = "@function.outer", desc = "around a function" },
+                        ["if"] = { query = "@function.inner", desc = "inner part of a function" },
+                        ["ac"] = { query = "@class.outer", desc = "around a class" },
+                        ["ic"] = { query = "@class.inner", desc = "inner part of a class" },
+                        ["ai"] = { query = "@conditional.outer", desc = "around an if statement" },
+                        ["ii"] = { query = "@conditional.inner", desc = "inner part of an if statement" },
+                        ["al"] = { query = "@loop.outer", desc = "around a loop" },
+                        ["il"] = { query = "@loop.inner", desc = "inner part of a loop" },
+                        ["ap"] = { query = "@parameter.outer", desc = "around parameter" },
+                        ["ip"] = { query = "@parameter.inner", desc = "inside a parameter" },
+                    },
+                    selection_modes = {
+                        ["@parameter.outer"] = "v",   -- charwise
+                        ["@parameter.inner"] = "v",   -- charwise
+                        ["@function.outer"] = "v",    -- charwise
+                        ["@conditional.outer"] = "V", -- linewise
+                        ["@loop.outer"] = "V",        -- linewise
+                        ["@class.outer"] = "<c-v>",   -- blockwise
+                    },
+                    include_surrounding_whitespace = false,
+                },
+                move = {
+                    enable = true,
+                    set_jumps = true, -- whether to set jumps in the jumplist
+                    goto_previous_start = {
+                        ["[f"] = { query = "@function.outer", desc = "Previous function" },
+                        ["[c"] = { query = "@class.outer", desc = "Previous class" },
+                        ["[p"] = { query = "@parameter.inner", desc = "Previous parameter" },
+                    },
+                    goto_next_start = {
+                        ["]f"] = { query = "@function.outer", desc = "Next function" },
+                        ["]c"] = { query = "@class.outer", desc = "Next class" },
+                        ["]p"] = { query = "@parameter.inner", desc = "Next parameter" },
+                    },
+                },
+                swap = {
+                    enable = true,
+                    swap_next = {
+                        ["<leader>a"] = "@parameter.inner",
+                    },
+                    swap_previous = {
+                        ["<leader>A"] = "@parameter.inner",
+                    },
+                },
+            },
+        })
     end,
-  },
-  {
-    "windwp/nvim-ts-autotag",
-    enabled = true,
-    ft = { "html", "xml", "javascript", "typescript", "javascriptreact", "typescriptreact", "svelte" },
-    config = function()
-      -- Independent nvim-ts-autotag setup
-      require("nvim-ts-autotag").setup({
-        opts = {
-          enable_close = true,           -- Auto-close tags
-          enable_rename = true,          -- Auto-rename pairs
-          enable_close_on_slash = false, -- Disable auto-close on trailing `</`
-        },
-        per_filetype = {
-          ["html"] = {
-            enable_close = true, -- Disable auto-closing for HTML
-          },
-          ["typescriptreact"] = {
-            enable_close = true, -- Explicitly enable auto-closing (optional, defaults to `true`)
-          },
-        },
-      })
-    end,
-  },
 }
